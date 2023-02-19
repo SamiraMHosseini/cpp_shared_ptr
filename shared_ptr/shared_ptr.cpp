@@ -7,8 +7,12 @@ class A
 public:
 	A(const char* const name_)
 	{
-		size_t len = std::strlen(name_) + 1;
 
+		/*
+		Using std::shared_ptr for char[] and int[] Arrays, and Custom Deleters to Manage Dynamic Memory
+		
+		*/
+		size_t len = std::strlen(name_) + 1;
 
 		//Definition
 
@@ -18,25 +22,31 @@ public:
 		strcpy_s(this->ptr_name.get(), len, name_);
 		//ptr_buffer
 		this->ptr_buffer =
-			std::shared_ptr<int[]>(new int[SIZE] {1, 2, 3, 4}, std::default_delete<int[]>());
+			std::shared_ptr<int[]>(new int[SIZE] {1, 2, 3, 4, 5}, std::default_delete<int[]>());
 
 	}
 	void Print()
 	{
 		std::cout << "Print name " << std::endl;
-		std::cout << this->ptr_name << '\n';
+
+		std::cout << this->ptr_name << std::endl;
+
 		std::cout << "Print buffer " << std::endl;
 		for (int i = 0; i < SIZE; ++i)
 		{
-			std::cout << this->ptr_buffer[i] << '\n';
+			std::cout << this->ptr_buffer[i] << std::endl;
 		}
 	}
+
+	//Data
+public:
+	const static size_t SIZE = 5;
 private:
+
 	//Declaration
 	std::shared_ptr<char[]> ptr_name;
 	std::shared_ptr<int[]> ptr_buffer;
-public:
-	const static size_t SIZE = 5;
+
 
 };
 void func(A object)
@@ -47,9 +57,9 @@ int main()
 {
 
 	const char* str = "Hello World!";
-	A a(str);
-	func(a);
-	a.Print();
+	A objectA(str);
+	func(objectA);
+	objectA.Print();
 
 
 }
