@@ -1,6 +1,10 @@
 # Using std::shared_ptr for char[] and int[] Arrays, and Custom Deleters to Manage Dynamic Memory in C++
 
-The make_shared function in C++ is used to create shared pointers to dynamically allocated objects. However, it does not work with arrays because it requires a single object type to be created, and arrays are made up of multiple objects of the same type.
+The std::make_shared function is used to create shared pointers to dynamically allocated objects. However, it cannot be used to create shared pointers to arrays.
+
+The reason for this is that std::make_shared requires a constructor argument for the object being created, but arrays do not have constructors. Instead, arrays are created using new[] or malloc, which return a pointer to the first element of the array.
+
+To create a shared pointer to an array in C++, you can use the std::shared_ptr constructor that takes a custom deleter. The deleter can be a lambda function that uses delete[] to free the array when the shared pointer is destroyed. 
 
 When you use make_shared to create a shared pointer, it needs to know the type of object to create, so it can allocate the appropriate amount of memory and call the constructor for that object. With arrays, it's not clear how many objects to create and how to construct them.
 The std::make_shared function in C++ is primarily designed to allocate and construct a single object of a given type, rather than an array of objects. The reason why make_shared does not work for arrays in C++ is because it expects a constructor argument list, which is used to initialize a single object of the specified type. Arrays, on the other hand, require a different kind of initialization than single objects. When you allocate an array, you typically need to specify the number of elements in the array, and each element needs to be constructed separately using a loop or other means.
